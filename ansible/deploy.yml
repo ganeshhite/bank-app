@@ -1,0 +1,16 @@
+- hosts: localhost
+  tasks:
+
+    - name: Copy app script
+      copy:
+        src: /home/pravin/bank-app/app.sh
+        dest: /home/pravin/app.sh
+        mode: '0755'
+
+    - name: Kill existing app
+      shell: pkill -f app.sh
+      register: kill_output
+      failed_when: false
+
+    - name: Start app
+      shell: nohup /home/pravin/app.sh >> /home/pravin/app.log 2>&1 &
